@@ -59,7 +59,7 @@ class PostsPagesTests(TestCase):
     def test_index_correct_context(self):
 
         response = self.authorized_client.get(reverse('posts:index'))
-        self.assertEqual(response.context['posts'][0].text,
+        self.assertEqual(response.context['page_obj'][0].text,
                          PostsPagesTests.post.text)
 
     def test_group_list_correct_context(self):
@@ -77,7 +77,7 @@ class PostsPagesTests(TestCase):
             'posts:profile',
             kwargs={'username': PostsPagesTests.user.username}
         ))
-        self.assertEqual(response.context['author_posts'][0].author,
+        self.assertEqual(response.context['page_obj'][0].author,
                          PostsPagesTests.user)
 
     def test_post_detail_correct_context(self):
@@ -86,7 +86,7 @@ class PostsPagesTests(TestCase):
             'posts:post_detail',
             kwargs={'post_id': PostsPagesTests.post.id}
         ))
-        self.assertEqual(response.context['post_id'],
+        self.assertEqual(response.context['post'].id,
                          int(PostsPagesTests.post.id))
 
     def test_post_edit_correct_context(self):
@@ -95,8 +95,9 @@ class PostsPagesTests(TestCase):
             'posts:post_edit',
             kwargs={'post_id': PostsPagesTests.post.id}
         ))
-        assert isinstance(response.context['form'], PostForm)
-        self.assertEqual(response.context['post_id'], PostsPagesTests.post.id)
+        self.assertIsInstance(response.context['form'], PostForm)
+        self.assertEqual(response.context['post'].id,
+                         int(PostsPagesTests.post.id))
 
     def test_create_correct_context(self):
 
