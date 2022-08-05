@@ -16,19 +16,17 @@ class PostsPagesTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create(username='Auth1')
+        cls.authorized_client = Client()
+        cls.authorized_client.force_login(cls.user)
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый пост',
-            id='1',
         )
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test-slug',
             description='Описание группы',
         )
-
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
 
     def test_namespaces_urls_matching(self):
 
@@ -109,7 +107,7 @@ class PostsPagesTests(TestCase):
 
 
 class PaginatorViewsTest(TestCase):
-    '''Тестирование работы паджинатора.'''
+    """Тестирование работы паджинатора."""
 
     @classmethod
     def setUpClass(cls):

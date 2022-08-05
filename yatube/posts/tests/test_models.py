@@ -19,7 +19,7 @@ class PostModelTest(TestCase):
         )
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост',
+            text='рандомный текст для проверки',
         )
 
     def test_object_name(self):

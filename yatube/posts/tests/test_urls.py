@@ -30,13 +30,13 @@ class StaticURLTests(TestCase):
         self.authorized_client_2.force_login(self.user2)
 
     def test_url_uses_correct_index(self):
-        '''Главная страница доступна любому пользователю.'''
+        """Главная страница доступна любому пользователю."""
         response = self.guest_client.get('/')
         self.assertEqual(response.status_code, 200)
 
     def test_not_available_pages_for_unauthorized(self):
-        '''Страница создания и редактирования поста
-           недоступна неавторизованному пользователю.'''
+        """Страница создания и редактирования поста
+           недоступна неавторизованному пользователю."""
         not_available_urls = [
             reverse('posts:post_create'),
             reverse('posts:post_edit',
@@ -48,18 +48,18 @@ class StaticURLTests(TestCase):
                 self.assertEqual(response.status_code, 302)
 
     def test_edit_url_not_by_author(self):
-        '''Страница редактирования поста недоступна не автору поста.'''
+        """Страница редактирования поста недоступна не автору поста."""
         response = self.authorized_client_2.get(
             f'/posts/{self.post.id}/edit/')
         self.assertEqual(response.status_code, 302)
 
     def test_unexisting_url(self):
-        '''Несуществующая страница возвращает ошибку 404.'''
+        """Несуществующая страница возвращает ошибку 404."""
         response = self.guest_client.get('/unexisting_page/')
         self.assertEqual(response.status_code, 404)
 
     def test_urls_uses_correct_template(self):
-        '''Страницы приложений posts и about используют корректные шаблоны.'''
+        """Страницы приложений posts и about используют корректные шаблоны."""
         templates_url_names = {
             '/': 'posts/index.html',
             f'/group/{StaticURLTests.group.slug}/': 'posts/group_list.html',
