@@ -49,16 +49,11 @@ class PostCreateFormTests(TestCase):
 
     def test_authorized_edit_post(self):
         """Авторизованный пользователь может редактировать свой пост."""
-        form_data = {
-            'text': 'Тестовый текст',
-            'group': self.group.id
-        }
-        self.authorized_client.post(
-            reverse('posts:post_create'),
-            data=form_data,
-            follow=True,
+        post_2 = Post.objects.create(
+            text='Тестовый текст',
+            author=self.user,
+            group=self.group,
         )
-        post_2 = get_object_or_404(Post, id=self.group.id)
         self.client.get(f'/username/{post_2.id}/edit/')
         form_data = {
             'text': 'Измененный тестовый текст',

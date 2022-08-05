@@ -16,8 +16,6 @@ class PostsPagesTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create(username='Auth1')
-        cls.authorized_client = Client()
-        cls.authorized_client.force_login(cls.user)
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый пост',
@@ -27,6 +25,10 @@ class PostsPagesTests(TestCase):
             slug='test-slug',
             description='Описание группы',
         )
+
+    def setUp(self):
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
 
     def test_namespaces_urls_matching(self):
 
