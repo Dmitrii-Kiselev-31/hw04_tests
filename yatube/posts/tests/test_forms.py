@@ -54,7 +54,6 @@ class PostCreateFormTests(TestCase):
             author=self.user,
             group=self.group,
         )
-        self.client.get(f'/username/{post_2.id}/edit/')
         form_data = {
             'text': 'Измененный тестовый текст',
             'group': self.group.id

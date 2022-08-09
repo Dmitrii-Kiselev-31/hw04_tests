@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
 from ..models import Group, Post
+from http import HTTPStatus
 
 User = get_user_model()
 
@@ -32,7 +33,7 @@ class StaticURLTests(TestCase):
     def test_url_uses_correct_index(self):
         """Главная страница доступна любому пользователю."""
         response = self.guest_client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_not_available_pages_for_unauthorized(self):
         """Страница создания и редактирования поста
